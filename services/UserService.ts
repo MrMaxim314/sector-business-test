@@ -9,6 +9,14 @@ interface IUserData {
   password: string;
 }
 
+interface IUserDataUpdate extends IUserData {
+  surname: string;
+  gender: 'M' | 'F';
+  photo: string;
+}
+
+type UserDataLogin = Pick<IUserData, 'email' | 'password'>;
+
 export class UserService {
   async createUser(req: Request, res: Response) {
     const { name, email, password }: IUserData = req.body;
@@ -38,7 +46,7 @@ export class UserService {
   }
 
   async loginUser(req: Request, res: Response) {
-    const { email, password } = req.body;
+    const { email, password }: UserDataLogin = req.body;
     const user = await prisma.user.findFirstOrThrow({
       where: {
         email: email,
@@ -54,7 +62,8 @@ export class UserService {
   }
 
   async updateUser(req: Request, res: Response) {
-    const { name, surname, email, password, gender } = req.body;
+    const { name, surname, email, password, gender }: IUserDataUpdate =
+      req.body;
     try {
       const userToUpdate = await prisma.user.findFirstOrThrow({
         where: {
