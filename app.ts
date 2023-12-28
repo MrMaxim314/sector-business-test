@@ -1,28 +1,19 @@
 import express from 'express';
 import dotenv from 'dotenv';
-import swaggerUi, { SwaggerOptions } from 'swagger-ui-express';
-import swaggerJsdoc from 'swagger-jsdoc';
-
-const options: SwaggerOptions = {
-  definition: {
-    info: {
-      title: 'Test Task API',
-    },
-  },
-  servers: [
-    {
-      url: 'http://localhost:3000/',
-    },
-  ],
-  apis: [],
-};
+import userRouter from './routes/userRoutes';
+import profileRouter from './routes/profileRoutes';
+import profilesRouter from './routes/profilesRoutes';
 
 dotenv.config();
 
 const app = express();
 
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerJsdoc(options)));
+app.use(express.json());
+app.use(express.static('uploads'));
+app.use('/user', userRouter);
+app.use('/profile', profileRouter);
+app.use('/profiles', profilesRouter);
 
-app.get('/ping', (req, res) => res.send('Ok'));
+app.get('/ping', (req, res) => res.json({ test: 'Ok' }));
 
 app.listen(3000, () => console.log('Server is running'));
