@@ -86,6 +86,7 @@ export class UserService {
       });
 
       res.status(200).json(user);
+      return;
     } catch (e) {
       res.status(500).json(e);
     }

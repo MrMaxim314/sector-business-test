@@ -16,7 +16,7 @@ model user {
   gender     user_gender?
   photo      String?
   created_at DateTime     @default(now())
-  updated_at DateTime?
+  updated_at DateTime?    @updatedAt
 }
 
 enum user_gender {
